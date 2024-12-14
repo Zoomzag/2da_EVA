@@ -1,0 +1,319 @@
+MySQL Shell 8.0.12
+
+Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+
+
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+
+ MySQL  SQL > \connect --mysql root@localhost:3306
+Creating a Classic session to 'root@localhost:3306'
+Please provide the password for 'root@localhost:3306': ****
+Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 17
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > show databases
+                              ... ,
+                              ... ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',' at line 2
+
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| based              |
+| hospital           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  SQL > use hospital;
+Default schema set to `hospital`.
+Fetching table and column names from `hospital` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  hospital  SQL > create table pacientes(
+                                        ... paciente_id int primary_key autoincrement,
+                                        ... nombre varchar(20) not null,
+                                        ... apellido_pat varchar(20) not null,
+                                        ... apellido_mat varchar(20) not null,
+                                        ... Fecha_naci date not null,
+                                        ... peso double (10,5),
+                                        ... alutra double (10,5),
+                                        ... numero_sos varchar(13) not null,
+                                        ... genero varchar(50),
+                                        ... telefono_casa varchar(10),
+                                        ... telefono_trabajo varchar(10),
+                                        ... telefono_movil varchar(10),
+                                        ... otros varchar(50));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'primary_key autoincrement,
+nombre varchar(20) not null,
+apellido_pat varchar(20)' at line 2
+
+ MySQL  localhost:3306 ssl  hospital  SQL > create table pacientes( paciente_id int primary_key auto_increment, nombre varchar(20) not null, apellido_pat varchar(20) not null, apellido_mat varchar(20) not null, Fecha_naci date not null, peso double (10,5), alutra double (10,5), numero_sos varchar(13) not null, genero varchar(50), telefono_casa varchar(10), telefono_trabajo varchar(10), telefono_movil varchar(10), otros varchar(50));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'primary_key auto_increment, nombre varchar(20) not null, apellido_pat varchar(20' at line 1
+
+ MySQL  localhost:3306 ssl  hospital  SQL > show tables;
++--------------------+
+| Tables_in_hospital |
++--------------------+
+| paciente           |
++--------------------+
+1 row in set (0.0013 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc pacientes;
+ERROR: 1146 (42S02): Table 'hospital.pacientes' doesn't exist
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc paciente;
++----------------------+-------------+------+-----+---------+----------------+
+| Field                | Type        | Null | Key | Default | Extra          |
++----------------------+-------------+------+-----+---------+----------------+
+| paciente_id          | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre               | varchar(20) | NO   |     | NULL    |                |
+| apellido_pat         | varchar(20) | NO   | PRI | NULL    |                |
+| apellido_mat         | varchar(20) | NO   |     | NULL    |                |
+| fecha_de_nacimento   | date        | NO   |     | NULL    |                |
+| peso                 | double      | NO   |     | NULL    |                |
+| altura               | double      | NO   |     | NULL    |                |
+| numero_seguro_social | varchar(13) | NO   |     | NULL    |                |
+| genero               | varchar(45) | YES  |     | NULL    |                |
+| telefono_casa        | varchar(10) | YES  |     | NULL    |                |
+| telefono_trabajo     | varchar(10) | YES  |     | NULL    |                |
+| telefono_movil       | varchar(10) | YES  |     | NULL    |                |
+| otros                | varchar(45) | YES  |     | NULL    |                |
++----------------------+-------------+------+-----+---------+----------------+
+13 rows in set (0.0015 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > show tables;
++--------------------+
+| Tables_in_hospital |
++--------------------+
+| cuartos            |
+| paciente           |
++--------------------+
+2 rows in set (0.0012 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc cuartos;
++----------------+---------+------+-----+---------+-------+
+| Field          | Type    | Null | Key | Default | Extra |
++----------------+---------+------+-----+---------+-------+
+| cuarto_id      | int(11) | NO   | PRI | NULL    |       |
+| paciente_id    | int(11) | NO   | MUL | NULL    |       |
+| numero_cuarto  | int(11) | NO   |     | NULL    |       |
+| inicio_estadia | date    | NO   |     | NULL    |       |
+| fin_estadia    | date    | YES  |     | NULL    |       |
++----------------+---------+------+-----+---------+-------+
+5 rows in set (0.0015 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > show tables
+                                        ... ;
++-----------------------+
+| Tables_in_hospital    |
++-----------------------+
+| cuartos               |
+| direcciones_pacientes |
+| paciente              |
++-----------------------+
+3 rows in set (0.0012 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc pacientes;
+ERROR: 1146 (42S02): Table 'hospital.pacientes' doesn't exist
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc direcciones_pacientes;
++-------------------------+---------+------+-----+---------+-------+
+| Field                   | Type    | Null | Key | Default | Extra |
++-------------------------+---------+------+-----+---------+-------+
+| iddirecciones_pacientes | int(11) | NO   | PRI | NULL    |       |
+| paciente_id             | int(11) | NO   | MUL | NULL    |       |
+| cuarto_id               | int(11) | NO   | MUL | NULL    |       |
++-------------------------+---------+------+-----+---------+-------+
+3 rows in set (0.0014 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > show tables;
++-----------------------+
+| Tables_in_hospital    |
++-----------------------+
+| cuartos               |
+| direcciones_pacientes |
+| empleados             |
+| paciente              |
++-----------------------+
+4 rows in set (0.0014 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc  empleados;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| id_empleados    | int(11)     | NO   | PRI | NULL    |       |
+| nombre          | varchar(20) | NO   |     | NULL    |       |
+| apellido_mat    | varchar(20) | NO   |     | NULL    |       |
+| apelldio_pat    | varchar(20) | NO   |     | NULL    |       |
+| titulo          | varchar(45) | YES  |     | NULL    |       |
+| fecha_nacimento | date        | NO   |     | NULL    |       |
+| otros           | varchar(45) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.0014 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc  empleados;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| id_empleados    | int(11)     | NO   | PRI | NULL    |       |
+| nombre          | varchar(20) | NO   |     | NULL    |       |
+| apellido_mat    | varchar(20) | NO   |     | NULL    |       |
+| apelldio_pat    | varchar(20) | NO   |     | NULL    |       |
+| titulo          | varchar(45) | YES  |     | NULL    |       |
+| fecha_nacimento | date        | NO   |     | NULL    |       |
+| otros           | varchar(45) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.0015 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > show tables;
++-----------------------+
+| Tables_in_hospital    |
++-----------------------+
+| cuartos               |
+| direcciones           |
+| direcciones_pacientes |
+| empleados             |
+| paciente              |
++-----------------------+
+5 rows in set (0.0011 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc   direcciones;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| direccion_id    | int(11)     | NO   | PRI | NULL    |       |
+| calle           | varchar(45) | NO   |     | NULL    |       |
+| numero_exterior | int(11)     | NO   |     | NULL    |       |
+| numero_interior | int(11)     | YES  |     | NULL    |       |
+| colonia         | varchar(45) | YES  |     | NULL    |       |
+| código_postal  | varchar(45) | NO   |     | NULL    |       |
+| ciudad          | varchar(45) | NO   |     | NULL    |       |
+| estado          | varchar(45) | NO   |     | NULL    |       |
+| otros           | varchar(45) | NO   |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+9 rows in set (0.0014 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc   direcciones_empleados;
++-------------------------+---------+------+-----+---------+-------+
+| Field                   | Type    | Null | Key | Default | Extra |
++-------------------------+---------+------+-----+---------+-------+
+| iddirecciones_empleados | int(11) | NO   | PRI | NULL    |       |
+| empleado_id             | int(11) | NO   | MUL | NULL    |       |
+| dirección_id           | int(11) | NO   | MUL | NULL    |       |
++-------------------------+---------+------+-----+---------+-------+
+3 rows in set (0.0014 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > show tables;
++-----------------------+
+| Tables_in_hospital    |
++-----------------------+
+| cuartos               |
+| direcciones           |
+| direcciones_empleados |
+| direcciones_pacientes |
+| empleados             |
+| formas_pago           |
+| paciente              |
++-----------------------+
+7 rows in set (0.0012 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc formas_pago;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| forma_pago_id | int(11)     | NO   | PRI | NULL    |       |
+| forma_pago    | varchar(45) | NO   |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+2 rows in set (0.0013 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > show tables;
++-----------------------+
+| Tables_in_hospital    |
++-----------------------+
+| cuartos               |
+| direcciones           |
+| direcciones_empleados |
+| direcciones_pacientes |
+| empleados             |
+| formas_pago           |
+| paciente              |
++-----------------------+
+7 rows in set (0.0014 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > show tables;
++-----------------------+
+| Tables_in_hospital    |
++-----------------------+
+| cuartos               |
+| direcciones           |
+| direcciones_empleados |
+| direcciones_pacientes |
+| empleados             |
+| formas_pago           |
+| paciente              |
+| pago_pacientes        |
++-----------------------+
+8 rows in set (0.0012 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc pago_pacientes;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| forma_pago_pac_id | int(11)     | NO   | PRI | NULL    |       |
+| paciene_id        | int(11)     | NO   | MUL | NULL    |       |
+| forma_pago_id     | int(11)     | NO   | MUL | NULL    |       |
+| detalles          | varchar(20) | NO   |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+4 rows in set (0.0016 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > show tables;
++----------------------------+
+| Tables_in_hospital         |
++----------------------------+
+| cuartos                    |
+| cuentas_pacientes          |
+| cuentas_pacientes_detalles |
+| direcciones                |
+| direcciones_empleados      |
+| direcciones_pacientes      |
+| empleados                  |
+| formas_pago                |
+| paciente                   |
+| pago_pacientes             |
+| registro_pacientes         |
++----------------------------+
+11 rows in set (0.0013 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL > desc registro_pacientes;
++-----------------------+-------------+------+-----+---------+-------+
+| Field                 | Type        | Null | Key | Default | Extra |
++-----------------------+-------------+------+-----+---------+-------+
+| idregistro_pacientes  | int(11)     | NO   | PRI | NULL    |       |
+| paciente_id           | int(11)     | NO   | MUL | NULL    |       |
+| cuentas_pacientes_id  | int(11)     | NO   | MUL | NULL    |       |
+| registro_por_empleado | int(11)     | NO   | MUL | NULL    |       |
+| fecha_de_admision     | date        | NO   |     | NULL    |       |
+| condicion_medica      | varchar(45) | NO   |     | NULL    |       |
+| otros                 | varchar(45) | NO   |     | NULL    |       |
++-----------------------+-------------+------+-----+---------+-------+
+7 rows in set (0.0015 sec)
+
+ MySQL  localhost:3306 ssl  hospital  SQL >
+
+
